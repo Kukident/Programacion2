@@ -1,0 +1,33 @@
+package Practica2;
+
+
+public class Arrays {
+
+	public static void main(String[] args) {
+		
+		int i,r,total=0;
+		char car,letra;
+		
+		char[] cadena;
+		cadena = new char[100];
+		
+		for (i=0; i<100; i++){
+		r = (int) (Math.random () *26);
+		r= r +97;
+		car = (char)r;
+		cadena[i]=car;
+		System.out.println(cadena[i]);
+		}
+		for (letra='a';letra<='z';letra ++){//for de abecedario
+			for (i=0; i<100; i++){//For cadena
+				if (cadena[i]==letra){
+					total=total+1;
+					}
+			}
+		System.out.println("La letra " + letra + " esta repetida " + total + " veces");
+		total=0;
+		}
+	}
+	
+}
+
