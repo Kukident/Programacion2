@@ -1,0 +1,39 @@
+package Practica2;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Strings {
+
+	public static void main(String[] args) throws IOException {
+		
+		String frase = new String();
+		int lon,posini=0;
+		
+		InputStreamReader entrada = new InputStreamReader(System.in);
+		BufferedReader buffer = new BufferedReader(entrada);
+		System.out.println("Introduce la frase: ");
+		frase = buffer.readLine();
+		
+		lon=frase.length()-1;
+		for (;lon>posini;lon --) {
+			if (frase.charAt(posini)==' '){
+				posini++;
+				lon++;
+				continue;
+			}
+			if (frase.charAt(lon)==' '){
+				continue;
+			}
+			if	(frase.charAt(posini)!=frase.charAt(lon)){
+				System.out.println("No es palindromo");
+				System.exit(0);
+			}
+			posini++;
+		}
+		System.out.println("Es palindromo");
+	}
+
+}
+
