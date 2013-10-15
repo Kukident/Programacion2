@@ -1,0 +1,21 @@
+package Practica2;
+
+import java.io.BufferedReader; //Buffer para almacenar los bytes leídos
+import java.io.File; //Objeto donde se "copia" el archivo
+import java.io.FileNotFoundException; //Excepción que sucede si el archivo no existe
+import java.io.FileReader; //El lector del archivo que básicamente recibe el buffer
+import java.io.IOException; //Excepción que sucede si no se puede manipular el archivo
+
+public class ordenarlistas {
+	public static void main(String[] args) throws IOException {
+String ruta = "/Users/asdfasdf/Desktop/a.txt";
+File archivo = new File (ruta);
+String linea = null;
+FileReader lector = new FileReader(archivo);
+BufferedReader buf = new BufferedReader(lector);
+while ((linea = buf.readLine()) != null)
+{
+	System.out.println(linea);
+}
+	}
+}
