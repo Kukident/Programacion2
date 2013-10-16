@@ -5,17 +5,56 @@ import java.io.File; //Objeto donde se "copia" el archivo
 import java.io.FileNotFoundException; //Excepción que sucede si el archivo no existe
 import java.io.FileReader; //El lector del archivo que básicamente recibe el buffer
 import java.io.IOException; //Excepción que sucede si no se puede manipular el archivo
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 
 public class ordenarlistas {
+
 	public static void main(String[] args) throws IOException {
-String ruta = "/Users/asdfasdf/Desktop/a.txt";
-File archivo = new File (ruta);
-String linea = null;
-FileReader lector = new FileReader(archivo);
-BufferedReader buf = new BufferedReader(lector);
-while ((linea = buf.readLine()) != null)
-{
-	System.out.println(linea);
-}
+
+		String ruta = "/Users/danielvilar2/Desktop/a.txt";
+		File archivo = new File (ruta);
+		String linea=null ;//linea a leer del archivo
+		String separador="["+ '*' +"]";
+		String[] fecha = new String [2];//0-Nombre/1-Apellidos/2-Fecha
+
+		SimpleDateFormat stringfecha = new SimpleDateFormat("dd/MM/yyyy");//objeto para convertir string a date
+		Date fecha1 = null;
+		ArrayList<String> listado = new ArrayList <String>();
+		ArrayList<Date>	listafechas	=	new	ArrayList<Date>();//listado de fechas a ordenar
+		try {
+			FileReader lector = new FileReader(archivo);
+			BufferedReader buf = new BufferedReader(lector);
+			while ((linea = buf.readLine()) != null)//lee linea y la guarda en el string i
+			{
+				listado.add(linea);
+				System.out.println(linea);
+				fecha=linea.split(separador);//Lee string i y separa los *
+				try {
+					fecha1=stringfecha.parse(fecha[2]);//Convierte fecha[2] de string a date
+				} catch (ParseException e) {
+					// TODO Bloque catch generado automáticamente
+					e.printStackTrace();
+				}
+				listafechas.add(fecha1);//añade fecha al listado de fechas
+				Collections.sort(listafechas);//ordena fechas
+			}
+			buf.close();
+			lector.close();
+		}
+		catch (FileNotFoundException ex){
+			System.out.println("No hay archivo");
+		}
+		catch(IOException ex){
+
+		}
+		System.out.println(listafechas);//imprime fechas con dia,mes,año,...
+		System.out.println(stringfecha.format(listafechas.get(0))+' '+stringfecha.format(listafechas.get(1))+' '+stringfecha.format(listafechas.get(2))); //Imprime las fechas en el formato correcto
+
+
 	}
+
 }
