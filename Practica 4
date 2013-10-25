@@ -1,0 +1,103 @@
+package Practica2;
+
+import java.io.BufferedReader; //Buffer para almacenar los bytes leídos
+import java.io.File; //Objeto donde se "copia" el archivo
+import java.io.FileNotFoundException; //Excepción que sucede si el archivo no existe
+import java.io.FileReader; //El lector del archivo que básicamente recibe el buffer
+import java.io.FileWriter;
+import java.io.IOException; //Excepción que sucede si no se puede manipular el archivo
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+
+public class ordenarlistadni {
+
+	public static void main(String[] args) throws IOException {
+
+		String ruta = "/Users/danielvilar2/Desktop/dni.txt";
+		File archivo = new File (ruta);
+		String linea=null ;//linea a leer del archivo
+		Map<String,String> listado = new HashMap<String,String>();
+		List<String> listador = new ArrayList <String>();
+		int opcion=1;
+
+		try {
+			FileReader lector = new FileReader(archivo);
+			BufferedReader buf = new BufferedReader(lector);
+			while ((linea = buf.readLine()) != null)//lee linea y la guarda en el string i
+			{
+				listado.put(linea.split("["+ '*' +"]")[0],linea.split(linea.split("["+ '*' +"]")[0]+"\\*")[1]);
+			}
+			buf.close();
+			lector.close();
+		}
+		catch (FileNotFoundException ex){
+			System.out.println("No hay archivo");
+		}
+		catch(IOException ex){
+
+		}
+		listador=listado.entrySet());
+		System.out.println(listador);
+		System.out.println("Elige la opcion: \n 1 - Añadir una nueva persona \n 2 - Ordenar por fecha de nacimiento \n 3 - Ordenar por apellidos \n 4 - Buscar por DNI");
+
+
+		switch (opcion){
+		case 1:{
+			Collections.sort(listado, new Comparator<String>(){//Separa los asteriscos y convierte la fecha a DATE para poder compararla
+				DateFormat df= new SimpleDateFormat("dd/MM/yyyy");
+				@Override
+				public int compare(String arg0, String arg1) {
+					try {
+						Date d1 = df.parse(arg0.split("["+ '*' +"]")[3]);
+						Date d2 = df.parse(arg1.split("["+ '*' +"]")[3]);
+						return d1.compareTo(d2);
+					}
+					catch (ParseException pe) {
+						System.out.println(pe);
+						return 0;
+					}
+				}
+			});	}
+
+		}
+
+		ListIterator<String> ite = listado.listIterator();//Recorre la lista
+		FileWriter fichero = null;
+		PrintWriter pw = null;
+		try {
+			fichero = new FileWriter("/Users/danielvilar2/Desktop/dnior.txt");
+			pw = new PrintWriter(fichero);
+			while (ite.hasNext()){
+				String usuario = ite.next();
+				pw.println(usuario);
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		fichero.close();
+
+		while (ite.hasPrevious()){//pone el iterator al principio de la lista
+			ite.previous();
+		}
+
+		while (ite.hasNext()){
+			String usuario = ite.next();
+			int fecha = 2013 - (Integer.parseInt(usuario.split("["+ '*' +"]")[3].split("["+ '/' +"]")[2]));
+			String nombre = usuario.split("["+ '*' +"]")[0];
+			String apellido = usuario.split("["+ '*' +"]")[1].split("["+ ' ' +"]")[0];
+			System.out.println(nombre + ' '+ apellido +  ' ' + fecha);
+		}
+	}
+
+}
