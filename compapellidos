@@ -1,0 +1,11 @@
+import java.util.Comparator;
+
+
+public class compapellidos implements  Comparator<Personas> {
+
+	@Override
+	public int compare(Personas arg0, Personas arg1) {
+		return arg0.getapellido1().compareTo(arg1.getapellido1());
+	}
+
+}
